@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity3d Lessons.CSharp.Plugins", "Unity3d Lessons.CSharp.Plugins.csproj", "{C44FBF56-FD4D-686F-1112-854DB277013E}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity3d Lessons.CSharp", "Unity3d Lessons.CSharp.csproj", "{608FA9F0-8347-72E1-B930-0F1A684FB7C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity3d Lessons.CSharp.Editor", "Unity3d Lessons.CSharp.Editor.csproj", "{EF5A2575-52D1-1090-2994-E5A554816E9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +13,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C44FBF56-FD4D-686F-1112-854DB277013E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C44FBF56-FD4D-686F-1112-854DB277013E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C44FBF56-FD4D-686F-1112-854DB277013E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C44FBF56-FD4D-686F-1112-854DB277013E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{608FA9F0-8347-72E1-B930-0F1A684FB7C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{608FA9F0-8347-72E1-B930-0F1A684FB7C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{608FA9F0-8347-72E1-B930-0F1A684FB7C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{608FA9F0-8347-72E1-B930-0F1A684FB7C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF5A2575-52D1-1090-2994-E5A554816E9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF5A2575-52D1-1090-2994-E5A554816E9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF5A2575-52D1-1090-2994-E5A554816E9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF5A2575-52D1-1090-2994-E5A554816E9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
