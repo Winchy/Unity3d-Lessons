@@ -34,7 +34,7 @@
 		//half3 p = cross(dir, n);
 		//p = normalize(p);
 		fixed l = length(dir.xy);
-		newUV += sin(l / _WaveLength + _Time.y * _Frequence)  * _WaveLength * normalize(dir.xy);
+		newUV += sin(l / _WaveLength + _Time.y * _Frequence) * pow(l, 1)  * _WaveLength * normalize(dir.xy);
 		return newUV;
 	}
 
