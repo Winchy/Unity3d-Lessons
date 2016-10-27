@@ -75,12 +75,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\RenderImage\FullScreenWave.cs" />
     <Compile Include="Assets\Stretch\FixedRotation.cs" />
     <Compile Include="Assets\Stretch\GrabForce.cs" />
     <Compile Include="Assets\Stretch\StretchToTarget.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\CustomProjector\CustomProjector.shader" />
+    <None Include="Assets\RenderImage\WaveShader.shader" />
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
   </ItemGroup>

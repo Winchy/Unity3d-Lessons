@@ -1,0 +1,19 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Holographic\Holographic.shader">
+    <Files>
+      <File FileName="Assets\NormalMapping\NormalMapping.shader" Line="26" Column="78" />
+      <File FileName="Assets\RenderImage\WaveShader.shader" Line="1" Column="1" />
+      <File FileName="Assets\RenderImage\FullScreenWave.cs" Line="1" Column="1" />
+      <File FileName="Assets\RenderImage\NewSurfaceShader.shader" Line="1" Column="1" />
+      <File FileName="Assets\SurfaceShaderTest\CustomSurface.shader" Line="1" Column="1" />
+      <File FileName="Temp\Compiled-CustomSurface.shader" Line="1" Column="1" />
+      <File FileName="Assets\Transparent\Transparent.shader" Line="33" Column="56" />
+      <File FileName="Assets\Holographic\Holographic.shader" Line="39" Column="4" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

@@ -3,7 +3,7 @@
 	Properties
 	{
 		_MainTex("Albedo (RGB)", 2D) = "white" {}
-	_WaveLength("Wave Length", Range(0.001, 0.2)) = 0.02
+		_WaveLength("Wave Length", Range(0.001, 0.2)) = 0.02
 		_Frequence("Frequence", Range(1, 100)) = 10
 	}
 
