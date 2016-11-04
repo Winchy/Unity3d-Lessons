@@ -1,0 +1,58 @@
+﻿#pragma kernel CSMain
+
+#define thread_group_size_x 16
+#define thread_group_size_y 16
+#define thread_group_size_z 1
+
+float Speed = 1;
+int wobble = 0;
+float3 wind = float3(0, 0, 0);
+float spacing = 5;
+
+struct positionStruct {
+	float3 pos;
+};
+
+struct startYStruct {
+	float offset;
+};
+
+struct constStruct {
+	float t;
+};
+
+struct posMod {
+	float2 mod;
+};
+
+RWStructuredBuffer<posMod> modBuffer;
+RWStructuredBuffer<constStruct> constBuffer;
+RWStructuredBuffer<startYStruct> startPointBuffer;
+RWStructuredBuffer<positionStruct> outputBuffer;
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWTexture2D<float4> Result;
+
+[numthreads(thread_group_size_x, thread_group_size_y, thread_group_size_z)]
+void CSMain(uint3 id : SV_DispatchThreadID) {
+	int idx = id.x + id.y * thread_group_size_x * 32;
+
+	float3 centre = float3(-thread_group_size_x * 15, 0, -thread_group_size_y * 15);
+	float3 pos = (float3(id.x, id.z + startPointBuffer[idx].offset, id.y) + centre) * spacing;
+
+	// particle moves between y = spacing * 2 * 32 (with an offset interpolation of pos.y%1) and y = 0 at the speed of Speed (modified by mod.x)
+	// using %1 makes particle moving in the above range repeatly
+	pos.y = (lerp((spacing * 2) * 32, 0, (pos.y + (constBuffer[0].t * (modBuffer[idx].mod.x * Speed))) % 1 )) * spacing;
+
+	if (wobble) {
+		pos.x += (cos(constBuffer[0].t * (modBuffer[idx].mod.x * 100))) * spacing;
+		pos.z += (sin(constBuffer[0].t * (modBuffer[idx].mod.y * 100))) * spacing;
+	}
+
+	wind.y == 0;
+	//bug here, raining zone would move away
+	//pos += (wind * constBuffer[0].t * 100);
+
+	outputBuffer[idx].pos = pos;
+}

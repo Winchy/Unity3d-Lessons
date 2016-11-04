@@ -1,0 +1,45 @@
+﻿#pragma kernel CSMain
+
+#define thread_group_size_x 10
+#define thread_group_size_y 10
+#define thread_group_size_z 10
+
+#define group_size_x 10
+#define group_size_y 10
+#define group_size_z 10
+
+struct pointInfo {
+	float3 pos;
+	float3 velocity;
+};
+
+float3 targetPos;
+float t;
+int init;
+
+RWStructuredBuffer<pointInfo> outputBuffer;
+
+[numthreads(thread_group_size_x, thread_group_size_y, thread_group_size_z)]
+void CSMain (uint3 groupID : SV_GroupID, uint3 id : SV_DispatchThreadID, uint3 groupThreadID : SV_GroupThreadID, uint groupIndex : SV_GroupIndex)
+{
+	//targetPos = float3(0, 0, 0);
+	uint idx = id.x + id.y * thread_group_size_x * group_size_x + id.z * thread_group_size_x * group_size_x * thread_group_size_y * group_size_y;
+	float3 pos = id * 0.2;
+	if (init != 0) {
+		pos = outputBuffer[idx].pos + outputBuffer[idx].velocity * t * 0.01;
+	} else {
+		pos = float3(pos.x * sin(pos.y), pos.y * cos(pos.z) , pos.z * sin(pos.x));
+	}
+
+	float dist = distance(pos, targetPos);
+	if (dist < 0.01)
+		dist = 0.01;
+	float3 force = normalize(targetPos - pos) * (1/(dist * dist) + 10 * dist) * 10 ;
+	float3 velocity = outputBuffer[idx].velocity + force * t;
+	float v = length(velocity);
+	if (v > 800) {
+		velocity = velocity * 800/v;
+	}
+	outputBuffer[idx].pos = pos;
+	outputBuffer[idx].velocity = velocity;
+}

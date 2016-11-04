@@ -1,0 +1,29 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+#define thread_group_size_x 10
+#define thread_group_size_y 10
+#define thread_group_size_z 10
+
+#define group_size_x 10
+#define group_size_y 10
+#define group_size_z 10
+
+struct positionStruct 
+{
+	float3 pos;
+};
+
+RWStructuredBuffer<positionStruct> outputBuffer;
+
+[numthreads(thread_group_size_x, thread_group_size_y, thread_group_size_z)]
+void CSMain (uint3 grpID : SV_GroupID, uint3 id : SV_DispatchThreadID, uint3 grpTID : SV_GroupThreadID, int grpIdx : SV_GroupIndex)
+{
+	int idx = id.x + (id.y * thread_group_size_x * group_size_x) + (id.z * thread_group_size_x * group_size_z * thread_group_size_y * group_size_y);
+
+	float scale = .5;
+	//float3 pos = (id + grpTID + (grpID * float3(thread_group_size_x, thread_group_size_y, thread_group_size_z)));
+	//the above result is (2 * id), as (id = (grpID * thread_group_size) + grpTID)
+	float3 pos = id;
+	outputBuffer[idx].pos = pos * scale;
+}

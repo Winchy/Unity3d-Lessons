@@ -1,15 +1,17 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Holographic\Holographic.shader">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GeometryShaders\BillboardGeomShader.shader">
     <Files>
-      <File FileName="Assets\NormalMapping\NormalMapping.shader" Line="26" Column="78" />
+      <File FileName="Assets\Lighting\Toon\Toon.shader" Line="35" Column="53" />
       <File FileName="Assets\RenderImage\WaveShader.shader" Line="1" Column="1" />
       <File FileName="Assets\RenderImage\FullScreenWave.cs" Line="1" Column="1" />
       <File FileName="Assets\RenderImage\NewSurfaceShader.shader" Line="1" Column="1" />
-      <File FileName="Assets\SurfaceShaderTest\CustomSurface.shader" Line="1" Column="1" />
-      <File FileName="Temp\Compiled-CustomSurface.shader" Line="1" Column="1" />
-      <File FileName="Assets\Transparent\Transparent.shader" Line="33" Column="56" />
-      <File FileName="Assets\Holographic\Holographic.shader" Line="39" Column="4" />
+      <File FileName="Assets\Lighting\CustomDiffuse\DefaultLambert.shader" Line="13" Column="31" />
+      <File FileName="Assets\Lighting\CustomDiffuse\SimpleLambert.shader" Line="30" Column="11" />
+      <File FileName="Assets\Lighting\Toon\TestToon.cs" Line="15" Column="2" />
+      <File FileName="Assets\GeometryShaders\BillboardGeomScript.cs" Line="70" Column="6" />
+      <File FileName="Assets\GeometryShaders\BillboardGeomShader.shader" Line="114" Column="5" />
+      <File FileName="Assets\SurfaceShaders\Holographic\Holographic.shader" Line="15" Column="43" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
