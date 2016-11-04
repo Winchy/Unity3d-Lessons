@@ -21,14 +21,15 @@ public class VoxelComputeShaderOutput : MonoBehaviour {
 
 	public int cubeMultiplier = 5;
 	public bool DebugRender = false;
-	public float PerlinScale = 100.0f;
+	public float PerlinScale = 20.0f;
+	public float HeightScale = 0.2f;
 	public float offset = 0.0f;
 
 	int CSKernel;
 
 	#endregion
 
-
+	/*
 	struct data {
 		public Vector3 pos;
 		public int f1;
@@ -38,8 +39,8 @@ public class VoxelComputeShaderOutput : MonoBehaviour {
 		public int f5;
 		public int f6;
 	};
-
 	data[] points;
+	*/
 
 	void InitializeBuffers() {
 		VertCount = 10 * 10 * 10 * cubeMultiplier * cubeMultiplier * cubeMultiplier;
@@ -105,7 +106,7 @@ public class VoxelComputeShaderOutput : MonoBehaviour {
 		for (int x = 0; x < width; x++) {
 			for (int z = 0; z < depth; z++) {
 				offset += Time.deltaTime * 0.001f;
-				fmap [x,z] = Mathf.PerlinNoise ((float)x /PerlinScale, (float)(z + offset)/PerlinScale);
+				fmap [x,z] = Mathf.PerlinNoise ((float)x /PerlinScale, (float)(z + offset)/PerlinScale) * HeightScale;
 
 				//Debug.Log (fmap [x, z]);
 			}
