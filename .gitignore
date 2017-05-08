@@ -1,3 +1,10 @@
 *.meta
 Unity3d Lessons/.vs/Unity3d Lessons/v14/.suo
 *.suo
+*.csproj
+Unity3d Lessons/Library
+*.csproj
+*.userprefs
+Unity3d Lessons/Temp
+Unity3d Lessons/Unity3d Lessons.sln
+*.sln
