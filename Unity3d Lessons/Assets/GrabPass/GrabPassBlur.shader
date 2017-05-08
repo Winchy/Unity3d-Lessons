@@ -18,8 +18,6 @@
 		Pass
 		{
 			CGPROGRAM
-// Upgrade NOTE: excluded shader from DX11 because it uses wrong array syntax (type[size] name)
-#pragma exclude_renderers d3d11
 
 #pragma vertex vert
 #pragma fragment frag
@@ -45,21 +43,21 @@
 			sampler2D _GrabTexture;
 
 			//https://en.wikipedia.org/wiki/Gaussian_blur
-			const float blurWeight[49] = float[49](
+			float blurWeight[49] = {
 				0.00000067, 0.00002292, 0.00019117, 0.00038771, 0.00019117, 0.00002292, 0.00000067,
 				0.00002292, 0.00078634, 0.00655965, 0.01330373, 0.00655965, 0.00078633, 0.00002292,
 				0.00019117, 0.00655965, 0.05472157, 0.11098164, 0.05472157, 0.00655965, 0.00019117,
-				0.00038771, 0.01330373, 0.11098164, 1, 0.11098164, 0.01330373, 0.00038771,
+				0.00038771, 0.01330373, 0.11098164, 0.22508352, 0.11098164, 0.01330373, 0.00038771,
 				0.00019117, 0.00655965, 0.05472157, 0.11098164, 0.05472157, 0.00655965, 0.00019117,
 				0.00002292, 0.00078633, 0.00655965, 0.01330373, 0.00655965, 0.00078633, 0.00002292,
 				0.00000067, 0.00002292, 0.00019117, 0.00038771, 0.00019117, 0.00002292, 0.00000067
-			);
+			};
 
 			half4 blur(half4 col, sampler2D tex, float2 uv) {
 				float2 offset = 1.0 / _ScreenParams.xy;
 				for (int i = -3; i <= 3; ++i) {
 					for (int j = -3; j <= 3; ++j) {
-						col += tex2D(tex, clamp(uv, 0, 1)) * blurWeight[24];
+						col += tex2D(tex, clamp(uv + float2(offset.x * i, offset.y *j)， 0， 1)) * blurWeight[j * 7 + i + 24];
 					}
 				}
 				return col;
@@ -76,7 +74,7 @@
 			half4 frag(v2f i) : COLOR{
 				half4 col = half4(0, 0, 0, 0); 
 				col = blur(col, _GrabTexture, i.uvgrab.xy/i.uvgrab.w);
-				return half4(blurWeight[24], blurWeight[24], blurWeight[24], blurWeight[24]);
+				return col;
 			}
 
 			ENDCG
