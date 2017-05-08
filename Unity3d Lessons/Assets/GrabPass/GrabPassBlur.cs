@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class GrabPassBlur : MonoBehaviour {
 
-    private Material material;
-    
+	[SerializeField]
+	private float deviation = 1.0f;
 
-    float[] blurWeight = new float[49]{
+    private Material material;
+
+	float[] GaussianMatrix = new float[49]{
                 0.00000067f,  0.00002292f,  0.00019117f,  0.00038771f,  0.00019117f,  0.00002292f,  0.00000067f,
 0.00002292f,  0.00078634f,  0.00655965f,  0.01330373f,  0.00655965f,  0.00078633f,  0.00002292f,
 0.00019117f,  0.00655965f,  0.05472157f,  0.11098164f,  0.05472157f,  0.00655965f,  0.00019117f,
@@ -17,15 +20,46 @@ public class GrabPassBlur : MonoBehaviour {
 0.00000067f,  0.00002292f,  0.00019117f,  0.00038771f,  0.00019117f,  0.00002292f,  0.00000067f
             };
 
+
+	void Awake() {
+		//CalculateGaussianMatrix (deviation);
+	}
+
     // Use this for initialization
     void Start () {
-        material = GetComponent<MeshRenderer>().material;
+        
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		#if UNITY_EDITOR
+		CalculateGaussianMatrix(deviation);
+		#endif
 	}
 
-    
+	void CalculateGaussianMatrix(float d) {
+		Debug.Log (d);
+		int x = 0;
+		int y = 0;
+		//Debug.Log (Mathf.Exp(-(x * x + y * y)/(2.0f * d * d)) / (2.0f * Mathf.PI * d * d));
+
+		float sum = 0.0f;
+		for (x = -3; x <= 3; ++x) {
+			for (y = -3; y <= 3; ++y) {
+				GaussianMatrix[y * 7 + x + 24] = Mathf.Exp(-(x * x + y * y)/(2.0f * d * d)) / (2.0f * Mathf.PI * d * d);
+				sum += GaussianMatrix [y * 7 + x + 24];
+			}
+		}
+
+		//normalize
+		sum = 1.0f / sum;
+		for (int i = 0; i < GaussianMatrix.Length; i++) {
+			GaussianMatrix [i] *= sum;
+		}
+
+		Debug.Log (GaussianMatrix [24]);
+
+		material = GetComponent<MeshRenderer>().sharedMaterial;
+		material.SetFloatArray ("blurWeight", GaussianMatrix);
+	}
 }
