@@ -18,6 +18,8 @@
 		Pass
 		{
 			CGPROGRAM
+// Upgrade NOTE: excluded shader from DX11 because it uses wrong array syntax (type[size] name)
+#pragma exclude_renderers d3d11
 
 #pragma vertex vert
 #pragma fragment frag
@@ -43,7 +45,15 @@
 			sampler2D _GrabTexture;
 
 			//https://en.wikipedia.org/wiki/Gaussian_blur
-			float blurWeight[49];
+			const float blurWeight[49] = float[49](
+				0.00000067, 0.00002292, 0.00019117, 0.00038771, 0.00019117, 0.00002292, 0.00000067,
+				0.00002292, 0.00078634, 0.00655965, 0.01330373, 0.00655965, 0.00078633, 0.00002292,
+				0.00019117, 0.00655965, 0.05472157, 0.11098164, 0.05472157, 0.00655965, 0.00019117,
+				0.00038771, 0.01330373, 0.11098164, 1, 0.11098164, 0.01330373, 0.00038771,
+				0.00019117, 0.00655965, 0.05472157, 0.11098164, 0.05472157, 0.00655965, 0.00019117,
+				0.00002292, 0.00078633, 0.00655965, 0.01330373, 0.00655965, 0.00078633, 0.00002292,
+				0.00000067, 0.00002292, 0.00019117, 0.00038771, 0.00019117, 0.00002292, 0.00000067
+			);
 
 			half4 blur(half4 col, sampler2D tex, float2 uv) {
 				float2 offset = 1.0 / _ScreenParams.xy;
