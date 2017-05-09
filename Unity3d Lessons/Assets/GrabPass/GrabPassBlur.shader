@@ -6,7 +6,7 @@
 		_TintAmt("Tint Amount", Range(0,1)) = 0.1
 		_MainTex("Tint Color (RGB)", 2D) = "white" {}
 		_BumpMap("Normalmap", 2D) = "bump" {}
-		_BlurAmt("Blur", Range(0, 100)) = 1
+		_BlurAmt("Blur", Range(0, 10)) = 1
 	}
 	
 	SubShader
