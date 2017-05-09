@@ -39,7 +39,6 @@ public class GrabPassBlur : MonoBehaviour {
 	}
 
 	void CalculateGaussianMatrix(float d) {
-		Debug.Log (d);
 		int x = 0;
 		int y = 0;
 
