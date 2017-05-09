@@ -12,6 +12,7 @@
 	
 	SubShader
 	{
+		//Queue is Transparent so other objects will be rendered first
 		Tags { "RenderType" = "Opaque" "Queue" = "Transparent"}
 		LOD 100
 
