@@ -4,7 +4,8 @@
 	{
 		_BumpAmt("Distortion", range(0, 2)) = 1
 		_TintAmt("Tint Amount", Range(0,1)) = 0.1
-		_MainTex("Tint Color (RGB)", 2D) = "white" {}
+		_TintColor("Tint Color", Color) = (1, 1, 1, 1)
+		_MainTex("Tint Texture (RGB)", 2D) = "white" {}
 		_BumpMap("Normalmap", 2D) = "bump" {}
 		_BlurAmt("Blur", Range(0, 10)) = 1
 	}
@@ -20,10 +21,9 @@
 		{
 			CGPROGRAM
 
-#pragma vertex vert
-#pragma fragment frag
-
-#include "UnityCG.cginc"
+			#pragma vertex vert
+			#pragma fragment frag
+			#include "UnityCG.cginc"
 
 			struct appData {
 				float4 vertex : POSITION;
@@ -39,9 +39,9 @@
 			float _BumpAmt;
 			float _TintAmt;
 			float _BlurAmt;
+			float4 _TintColor;
 			sampler2D _MainTex;
 			sampler2D _BumpMap;
-
 			sampler2D _GrabTexture;
 			float4 _GrabTexture_TexelSize;
 
@@ -136,8 +136,7 @@
 				half4 col = half4(0, 0, 0, 0); 
 				float4 uvgrab = float4(i.uvgrab.x + distortion.x, i.uvgrab.y + distortion.y, i.uvgrab.z, i.uvgrab.w);
 				col = blur(col, _GrabTexture, uvgrab);
-				//col = blurHardCoded(col, _GrabTexture, uvgrab);
-				return lerp(col, col * mainColor, _TintAmt);
+				return lerp(col, col * mainColor, _TintAmt) * _TintColor;
 			}
 
 			ENDCG
