@@ -1,4 +1,6 @@
-﻿Shader "Custom/GrabShader" 
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/GrabShader" 
 {
 	SubShader
 	{
@@ -31,7 +33,7 @@
 			v2f_vct vert (vin_vct v)
 			{
 				v2f_vct o;
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uvgrab = ComputeGrabScreenPos(o.vertex);
 				return o;
 			}

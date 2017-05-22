@@ -1,4 +1,6 @@
-﻿Shader "Custom/GrabPassGlass"
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/GrabPassGlass"
 {
 	Properties
 	{
@@ -45,7 +47,7 @@
 
 			v2f vert(appData v) {
 				v2f o;
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.texcoord = v.texcoord;
 				o.uvgrab = ComputeGrabScreenPos(o.vertex);
 				return o;

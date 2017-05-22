@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Blur
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: e9d87679cbc06cd46b69f0a3c4802a6f, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -18,7 +18,7 @@ Material:
     - first:
         name: _BumpMap
       second:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 78fb419346757f74da0a8ac98d6e641f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -48,7 +48,7 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: f6b1af4ee599857458c6619cead972aa, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -71,6 +71,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - first:
+        name: _BumpAmt
+      second: 54.8
+    - first:
         name: _BumpScale
       second: 1
     - first:
@@ -92,6 +95,9 @@ Material:
         name: _GlossyReflections
       second: 1
     - first:
+        name: _HorizontalDistort
+      second: 1
+    - first:
         name: _Metallic
       second: 0
     - first:
@@ -104,6 +110,9 @@ Material:
         name: _Parallax
       second: 0.02
     - first:
+        name: _Size
+      second: 5.46
+    - first:
         name: _SmoothnessTextureChannel
       second: 0
     - first:
@@ -115,6 +124,9 @@ Material:
     - first:
         name: _UVSec
       second: 0
+    - first:
+        name: _VerticalDistort
+      second: 1
     - first:
         name: _ZWrite
       second: 1

@@ -6,10 +6,10 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: GrabPassBlur
-  m_Shader: {fileID: 4800000, guid: 67ca236889b6a4643a8fd9e3bea22d17, type: 3}
-  m_ShaderKeywords: _EMISSION
-  m_LightmapFlags: 1
+  m_Name: Unity_soldier_Head_DIF_01
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
   m_CustomRenderQueue: -1
   stringTagMap: {}
   m_SavedProperties:
@@ -18,7 +18,7 @@ Material:
     - first:
         name: _BumpMap
       second:
-        m_Texture: {fileID: 2800000, guid: 78fb419346757f74da0a8ac98d6e641f, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -48,7 +48,7 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 2800000, guid: f6b1af4ee599857458c6619cead972aa, type: 3}
+        m_Texture: {fileID: 2800000, guid: dc4c256e6e1ed0f4294a3c8763dd0f75, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -70,12 +70,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - first:
-        name: _BlurAmt
-      second: 3.71
-    - first:
-        name: _BumpAmt
-      second: 0
     - first:
         name: _BumpScale
       second: 1
@@ -110,9 +104,6 @@ Material:
         name: _Parallax
       second: 0.02
     - first:
-        name: _Size
-      second: 1
-    - first:
         name: _SmoothnessTextureChannel
       second: 0
     - first:
@@ -121,9 +112,6 @@ Material:
     - first:
         name: _SrcBlend
       second: 1
-    - first:
-        name: _TintAmt
-      second: 0
     - first:
         name: _UVSec
       second: 0
