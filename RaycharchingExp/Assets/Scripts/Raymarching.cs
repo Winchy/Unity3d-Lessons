@@ -57,7 +57,10 @@ public class Raymarching : MonoBehaviour {
         Vector3 toRight = Vector3.right * tan_fov * camAspect;
         Vector3 toTop = Vector3.up * tan_fov;
 
-        Vector3 topLeft = (-Vector3.forward - toRight + toTop); //why -Vector3.forward?
+		//-Vector3.forward, because camera sapce is right hand based, rather than left hand based as world space
+		//See https://docs.unit y3d.com/ScriptReference/Camera-cameraToWorldMatrix.html
+		//"Note that camera space mathes OpenGL convention: camera's forward is the negative Z axis. This is different from Unity's convention, where forward is the positive Z axis"
+        Vector3 topLeft = (-Vector3.forward - toRight + toTop); 
         Vector3 topRight = (-Vector3.forward + toRight + toTop);
         Vector3 bottomRight = (-Vector3.forward + toRight - toTop);
         Vector3 bottomLeft = (-Vector3.forward - toRight - toTop);
@@ -65,7 +68,7 @@ public class Raymarching : MonoBehaviour {
         frustumCorners.SetRow(0, topLeft);
         frustumCorners.SetRow(1, topRight);
         frustumCorners.SetRow(2, bottomRight);
-        frustumCorners.SetRow(1, bottomLeft);
+        frustumCorners.SetRow(3, bottomLeft);
 
         return frustumCorners;
     }
