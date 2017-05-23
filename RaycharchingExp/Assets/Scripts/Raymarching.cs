@@ -1,16 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(Camera))]
-[AddComponentMenu("Effects/Raymarch (Generic)")]
-public class Raymarching : MonoBehaviour {
+[AddComponentMenu("Effects/Raymarch (Generic Complete)")]
+public class Raymarching : SceneViewFilter
+{
+    public Light SunLight;
 
     [SerializeField]
     private Shader _EffectShader;
-
-    private Material _EffectMaterial;
 
     public Material EffectMaterial
     {
@@ -25,6 +23,7 @@ public class Raymarching : MonoBehaviour {
             return _EffectMaterial;
         }
     }
+    private Material _EffectMaterial;
 
     public Camera CurrentCamera
     {
@@ -33,7 +32,7 @@ public class Raymarching : MonoBehaviour {
             if (!_CurrentCamera)
                 _CurrentCamera = GetComponent<Camera>();
             return _CurrentCamera;
-        } 
+        }
     }
     private Camera _CurrentCamera;
 
@@ -52,15 +51,16 @@ public class Raymarching : MonoBehaviour {
         Matrix4x4 frustumCorners = Matrix4x4.identity;
 
         float fovWHalf = camFov * 0.5f;
+
         float tan_fov = Mathf.Tan(fovWHalf * Mathf.Deg2Rad);
 
         Vector3 toRight = Vector3.right * tan_fov * camAspect;
         Vector3 toTop = Vector3.up * tan_fov;
 
-		//-Vector3.forward, because camera sapce is right hand based, rather than left hand based as world space
-		//See https://docs.unit y3d.com/ScriptReference/Camera-cameraToWorldMatrix.html
-		//"Note that camera space mathes OpenGL convention: camera's forward is the negative Z axis. This is different from Unity's convention, where forward is the positive Z axis"
-        Vector3 topLeft = (-Vector3.forward - toRight + toTop); 
+        //-Vector3.forward, because camera sapce is right hand based, rather than left hand based as world space
+        //See https://docs.unit y3d.com/ScriptReference/Camera-cameraToWorldMatrix.html
+        //"Note that camera space mathes OpenGL convention: camera's forward is the negative Z axis. This is different from Unity's convention, where forward is the positive Z axis"
+        Vector3 topLeft = (-Vector3.forward - toRight + toTop);
         Vector3 topRight = (-Vector3.forward + toRight + toTop);
         Vector3 bottomRight = (-Vector3.forward + toRight - toTop);
         Vector3 bottomLeft = (-Vector3.forward - toRight - toTop);
@@ -88,8 +88,9 @@ public class Raymarching : MonoBehaviour {
         RenderTexture.active = dest;
 
         fxMaterial.SetTexture("_MainTex", source);
+
         GL.PushMatrix();
-        GL.LoadOrtho();
+        GL.LoadOrtho(); // Note: z value of vertices don't make a difference because we are using ortho projection
 
         fxMaterial.SetPass(passNr);
 
@@ -99,16 +100,16 @@ public class Raymarching : MonoBehaviour {
         // GL.Vertex3(x,y,z) queues up a vertex at position (x, y, z) to be drawn.  Note that we are storing
         // our own custom frustum information in the z coordinate.
         GL.MultiTexCoord2(0, 0.0f, 0.0f);
-        GL.Vertex3(0.0f, 0.0f, 3.0f); //BL
+        GL.Vertex3(0.0f, 0.0f, 3.0f); // BL
 
-        GL.MultiTexCoord2(1, 1.0f, 0.0f);
-        GL.Vertex3(1.0f, 0.0f, 2.0f); //BR
+        GL.MultiTexCoord2(0, 1.0f, 0.0f);
+        GL.Vertex3(1.0f, 0.0f, 2.0f); // BR
 
-        GL.MultiTexCoord2(2, 1.0f, 1.0f);
-        GL.Vertex3(1.0f, 1.0f, 1.0f); //TR
+        GL.MultiTexCoord2(0, 1.0f, 1.0f);
+        GL.Vertex3(1.0f, 1.0f, 1.0f); // TR
 
-        GL.MultiTexCoord2(3, 0.0f, 1.0f);
-        GL.Vertex3(0.0f, 1.0f, 0.0f); //TL
+        GL.MultiTexCoord2(0, 0.0f, 1.0f);
+        GL.Vertex3(0.0f, 1.0f, 0.0f); // TL
 
         GL.End();
         GL.PopMatrix();
@@ -119,14 +120,17 @@ public class Raymarching : MonoBehaviour {
     {
         if (!EffectMaterial)
         {
-            Graphics.Blit(source, destination);
+            Graphics.Blit(source, destination); // do nothing
             return;
         }
 
+        EffectMaterial.SetVector("_LightDir", SunLight ? SunLight.transform.forward : Vector3.down);
+        EffectMaterial.SetVector("_LightColor", SunLight ? SunLight.color : Color.white);
         EffectMaterial.SetMatrix("_FrustumCornersES", GetFrustumCorners(CurrentCamera));
         EffectMaterial.SetMatrix("_CameraInvViewMatrix", CurrentCamera.cameraToWorldMatrix);
         EffectMaterial.SetVector("_CameraWS", CurrentCamera.transform.position);
 
         CustomGraphicsBlit(source, destination, EffectMaterial, 0);
     }
+
 }
