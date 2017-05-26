@@ -30,6 +30,10 @@ Shader "Hidden/rm_shader"
 			uniform float3 _LightDir;
 			uniform float4 _LightColor;
 
+			uniform sampler2D _CameraDepthTexture;
+
+			uniform float4x4 _MatTorus_InvModel;
+
 			struct appdata
 			{
 				float4 vertex : POSITION;
@@ -57,7 +61,8 @@ Shader "Hidden/rm_shader"
 			// of any object we put in the scene.  If the given point (point p) is inside of an object, we return a
 			// negative answer.
 			float map(float3 p) {
-				return sdTorus(p, float2(1, 0.2));
+				float4 q = mul(_MatTorus_InvModel, float4(p, 1));
+				return sdTorus(q.xyz, float2(1, 0.2));
 			}
 
 			float3 calcNormal(in float3 pos)
@@ -79,12 +84,19 @@ Shader "Hidden/rm_shader"
 			// Raymarch along given ray
 			// ro: ray origin
 			// rd: ray direction
-			fixed4 raymarch(float3 ro, float3 rd) {
+			fixed4 raymarch(float3 ro, float3 rd, float s) {
 				fixed4 ret = fixed4(0, 0, 0, 0);
 
 				const int maxstep = 64;
 				float t = 0; // current distance traveled along ray
 				for (int i = 0; i < maxstep; ++i) {
+					// If we run past the depth buffer, stop and return nothing (transparent pixel)
+					// this way raymarched objects and traditional meshes can coexist.
+					if (t >= s) {
+						ret = fixed4(0, 0, 0, 0);
+						break;
+					}
+
 					float3 p = ro + rd * t; // World space position of sample
 					float d = map(p);       // Sample of distance field (see map())
 
@@ -124,14 +136,17 @@ Shader "Hidden/rm_shader"
 				// Get the eyespace view ray (normalized)
 				o.ray = _FrustumCornersES[(int)index].xyz;
 
+				// Dividing by z "normalizes" it in the z axis
+				// Therefore multiplying the ray by some number i gives the viewspace position
+				// of the point on the ray with [viewspace z]=i
+				o.ray /= abs(o.ray.z);
+
 				// Transform the ray from eyespace to worldspace
 				// Note: _CameraInvViewMatrix was provided by the script
 				o.ray = mul(_CameraInvViewMatrix, o.ray);
 				return o;
 			}
 			
-			
-
 			fixed4 frag(v2f i) : SV_Target
 			{
 				// ray direction
@@ -139,8 +154,21 @@ Shader "Hidden/rm_shader"
 				// ray origin (camera position)
 				float3 ro = _CameraWS;
 
+				float2 duv = i.uv;
+				#if UNITY_UV_STARTS_AT_TOP
+				if (_MainTex_TexelSize.y < 0)
+					duv.y = 1 - duv.y;
+				#endif
+
+				// Convert from depth buffer (eye space) to true distance from camera
+				// This is done by multiplying the eyespace depth by the length of the "z-normalized"
+				// ray (see vert()). This of similar triangles: the view-space z-distance between a point
+				// and the camera is proportional to the absolute distance
+				float depth = LinearEyeDepth(tex2D(_CameraDepthTexture, duv).r);
+				depth *= length(i.ray.xyz);
+
 				fixed3 col = tex2D(_MainTex,i.uv); // Color of the scene before this shader was run
-				fixed4 add = raymarch(ro, rd);
+				fixed4 add = raymarch(ro, rd, depth);
 
 				// Returns final color using alpha blending
 				return fixed4(col*(1.0 - add.w) + add.xyz * add.w,1.0);

@@ -124,6 +124,11 @@ public class Raymarching : SceneViewFilter
             return;
         }
 
+        //Construct a Model Matrix for this Torus
+        Matrix4x4 MatTorus = Matrix4x4.TRS(Vector3.right * Mathf.Sin(Time.time) * 5, Quaternion.identity, Vector3.one);
+        MatTorus *= Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(new Vector3(0, 0, (Time.time * 200.0f) % 360)), Vector3.one);
+        EffectMaterial.SetMatrix("_MatTorus_InvModel", MatTorus.inverse);
+
         EffectMaterial.SetVector("_LightDir", SunLight ? SunLight.transform.forward : Vector3.down);
         EffectMaterial.SetVector("_LightColor", SunLight ? SunLight.color : Color.white);
         EffectMaterial.SetMatrix("_FrustumCornersES", GetFrustumCorners(CurrentCamera));
